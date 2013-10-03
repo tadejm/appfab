@@ -17,6 +17,7 @@ class BookmarkObserver < ActiveRecord::Observer
   def _create_bookmark_for(idea, user)
     user.bookmarks.transaction do
       return if user.bookmarks.idea_is(idea).any?
+      return if user.plays?(:product_manager)
       user.bookmarks.create!(idea: idea)
     end
   end

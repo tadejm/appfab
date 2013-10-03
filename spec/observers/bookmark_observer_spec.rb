@@ -11,6 +11,15 @@ describe BookmarkObserver do
     end
   end
 
+  context 'whemn a user is a PM' do
+    it 'does not bookmark it' do
+      user.roles << User::Role.make!
+      lambda {
+        Idea.make! author: user
+      }.should_not change { user.bookmarks.count }
+    end
+  end
+
   context 'when a user comments on an idea' do
     it 'bookmarks it' do
       idea = Idea.make!
